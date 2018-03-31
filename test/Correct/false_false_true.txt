@@ -1,0 +1,16 @@
+Configuration(df=false,sort=false,single=true).
+
+------------
+person(jolan, 90, 12,cleveland).
+person(steve, 67, 50,cleveland).
+person(  han, 24, 56,houston).
+person( alex, 26, 44,austin).
+person(  don, 87, 35,austin).
+person( anna,100, 12,cleveland).
+------------
+person(jolan, 90, 12,cleveland).
+person(steve, 67, 50,cleveland).
+person(  han, 24, 56,houston).
+person( alex, 26, 44,austin).
+person( anna,100, 12,cleveland).
+------------
