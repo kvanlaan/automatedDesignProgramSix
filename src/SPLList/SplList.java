@@ -6,9 +6,9 @@ import java.util.function.Consumer;
 
 public class SplList<Node extends SplListKey> implements Iterable<Node> {
 
-    public static boolean df = false;
+    public static boolean df = true;
     public static boolean sort = true;
-    public static boolean single = true;
+    public static boolean single = false;
     
     private final list mylist;
     
@@ -65,6 +65,10 @@ public class SplList<Node extends SplListKey> implements Iterable<Node> {
             // TO DO
             node curr_node = new node(n);
             
+            if (df) {
+                curr_node.delflag = false;
+            }
+            
             if (head == null) {
                 head = curr_node;
                 tail = curr_node;
@@ -105,7 +109,6 @@ public class SplList<Node extends SplListKey> implements Iterable<Node> {
                     }
                 }
             } else { // unsorted
-                // when inserting to the head, single/double-unsorted alg behave the same
                 curr_node.right = head;
                 if (!single) {
                     head.left = curr_node;
@@ -113,15 +116,19 @@ public class SplList<Node extends SplListKey> implements Iterable<Node> {
                 head = curr_node;
             }
             
-            if (df) {
-                curr_node.delflag = false;
-            }
-            
             return curr_node;
         }
 
         public void remove(node prev, node n) {
             // TO DO
+            if (df) {
+                n.delflag = true;
+                return;
+            }
+            prev.right = n.right;
+            if (!single) {
+                n.right.left = prev;
+            }
         }
 
     }
@@ -140,14 +147,16 @@ public class SplList<Node extends SplListKey> implements Iterable<Node> {
             right = null;
         }
     }
-
+    
     public class cursor implements Iterator<Node> {
         // TO DO -- add secret sauce
         node pointer;
+        node prepointer;
         
         public cursor() {
             // TO DO
-            pointer = mylist.head;
+            pointer = null;
+            prepointer = null;
         }
 
         @Override
@@ -158,20 +167,36 @@ public class SplList<Node extends SplListKey> implements Iterable<Node> {
         @Override
         public boolean hasNext() {
             // TO DO
-            return pointer != null;
+            if (pointer == null) {
+                return mylist.head != null;
+            }
+
+            if (df) {
+                while (pointer.right != null && pointer.right.delflag) {
+                    pointer.right = pointer.right.right;
+                }
+            }
+            
+            return pointer.right != null;
         }
 
         @Override
         public Node next() {
-            // TO DO
-            node curr = pointer;
-            pointer =  pointer.right;
-            return curr.me;
+            // TO DO   
+            if (pointer == null) {
+                pointer = mylist.head;
+            } else {
+                prepointer = pointer;
+                pointer =  pointer.right;
+            }
+            
+            return pointer.me;
         }
 
         @Override
         public void remove() {
             // TO DO
+            mylist.remove(prepointer, pointer);
         }
     }
 }
