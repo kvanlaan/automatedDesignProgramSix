@@ -24,17 +24,17 @@ public class Main {
         printlist(plist);
 
 
-//        // delete don
-//        SplList.cursor c = plist.cursor();
-//        while (c.hasNext()) {
-//            Person p = (Person) c.next();
-//            String s = p.toString();
-//            if (p.name.equals("don")) {
-//                c.remove();
-//            }
-//        }
-//
-//        printlist(plist);
+        // delete don
+        SplList.cursor c = plist.cursor();
+        while (c.hasNext()) {
+            Person p = (Person) c.next();
+            String s = p.toString();
+            if (p.name.equals("don")) {
+                c.remove();
+            }
+        }
+
+        printlist(plist);
     }
 
     static void line() {
